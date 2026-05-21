@@ -32,8 +32,6 @@ bash scripts/setup_smpl.sh
 
 The dataset can be found at this link: https://musclesinaction.cs.columbia.edu/MIADataset.tar. Download it, and place the folder in the same directory as the top-level musclesinaction folder.
 
-
-
 ## Training
 
 To train your own model, run the following command below. By default, it pulls from the musclesinaction/configs/train.yaml file. 
@@ -51,15 +49,35 @@ The config file also specifies the information for what data the model is being 
 
 Always enable the conda environment before running any command:
 ```commandline
-$ conda activate musclesinaction
+conda activate musclesinaction
 ```
 
-The 'musclesinaction/inference_commands' folder has many different scripts to evaluate our model and baselines, per exercise and per person, for both in-distribution and out-of-distribution experiments. 
+The `musclesinaction/inference_commands` folder contains orchestrator scripts to run and evaluate our models and baselines. Inference commands are organized into two subdirectories based on prediction direction:
+- `emgtopose/`: Scripts to predict 3D/2D Pose from Muscle Activity (sEMG).
+- `posetoemg/`: Scripts to predict Muscle Activity (sEMG) from Pose.
 
-For instance, to evaluate the emg-to-pose model per exercise, in-distribution, with our model, you would run the following command: 
-
+For instance, to evaluate the emg-to-pose model per exercise, in-distribution, with our Transformer model, you would run:
 ```commandline
-$ python musclesinaction/inference_commands/emgtopose/command_id_cond_exercises_transf_emgtopose.py
+python musclesinaction/inference_commands/emgtopose/command_id_cond_exercises_transf_emgtopose.py
 ```
+This will open a tmux session per exercise and print the test set error for that exercise.
 
-This will open a tmux session per exercise, and prints the error on the test set for that exercise. 
+### **Inference Script Categorization & Dimensions**
+
+When running or selecting inference scripts, files are named and organized according to four key experimental dimensions:
+
+#### **1. Model Approach: `transf` vs. `retrieval`**
+- **`transf`**: Uses a **Transformer** neural network to predict the target modality (e.g. pose from muscle signals, or vice versa).
+- **`retrieval`**: Uses a **Nearest Neighbor** search baseline to retrieve the closest matching sample from the training database.
+
+#### **2. Generalization Type: `id` vs. `ood`**
+- **`id` (In-Distribution)**: Tests the model on subjects or exercises it has seen during training, but on unseen time segments.
+- **`ood` (Out-of-Distribution)**: Tests the model's zero-shot generalization capabilities on **entirely new** people (subject-to-subject) or exercises that were excluded from the training set.
+
+#### **3. Subject/Action Focus: `people` vs. `exercises`**
+- **`people`**: Focuses on Subject-to-Subject generalization (evaluating performance when testing on unseen individuals).
+- **`exercises`**: Focuses on Exercise-to-Exercise generalization (evaluating performance when testing on unseen movements).
+
+#### **4. Conditioning: `cond` vs. `nocond`**
+- **`cond` (Conditional)**: The model is explicitly conditioned on the subject identity or exercise category being performed (e.g. knowing it is a squat).
+- **`nocond` (Non-conditional)**: The model is given inputs blindly and must predict the outputs without any prior knowledge of the subject or exercise.
