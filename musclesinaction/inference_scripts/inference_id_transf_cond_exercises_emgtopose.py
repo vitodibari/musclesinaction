@@ -148,7 +148,6 @@ def main(args, logger):
         threedskeleton = data_retval['3dskeleton']
         twodskeleton = data_retval['2dskeleton']
         emggroundtruth = data_retval['emg_values']
-        emggroundtruth = data_retval['emg_values']
         emggroundtruth = emggroundtruth.to(device)
         cond = data_retval['condval'].to(device)
         badcond = data_retval['condvalbad'].to(device)

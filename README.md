@@ -1,5 +1,7 @@
 # Muscles in Action (ICCV 2023)
 
+[![arXiv](https://img.shields.io/badge/arXiv-2212.02978-b31b1b.svg)](https://arxiv.org/abs/2212.02978)
+
 Code and pre-trained models for the Muscles in Action ICCV 2023 paper. 
 
 ## Setup
@@ -26,7 +28,7 @@ https://drive.usercontent.google.com/download?id=1untXhYOLQtpNEy4GTY_0fL_H-k6cTf
 bash scripts/setup_smpl.sh
 ```
 
-Dataset: 
+## Dataset: 
 
 The dataset can be found at this link: https://musclesinaction.cs.columbia.edu/MIADataset.tar. Download it, and place the folder in the same directory as the top-level musclesinaction folder.
 

@@ -19,10 +19,14 @@ ehthumbs.db
 Thumbs.db
 *:Zone.Identifier
 
+# IDEs
+.vscode/settings.json
+
 # Project specific data and checkpoints
 data/
 vibe_data/
-pretrained-checkpoints/
 *.zip
 *.tar
 *.mp4
+checkpoints/
+logs/
