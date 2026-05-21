@@ -5,13 +5,25 @@ Code and pre-trained models for the Muscles in Action ICCV 2023 paper.
 ## Setup
 Environment: 
 
-1. Install a new conda environment:
+1. Install a new conda environment enbled for pip packages and compatible Python version:
 ```commandline
-$ conda create --name musclesinaction --file requirements.txt
+conda create -n musclesinaction python=3.8 pip -y
 ```
 2. Activate environment:
 ```commandline
-$ conda activate musclesinaction
+conda activate musclesinaction
+```
+3. Install pip packages:
+```commandline
+pip install -r requirements.txt
+```
+4. Download the SMPL model from Google Drive and place it in the project root:
+
+https://drive.usercontent.google.com/download?id=1untXhYOLQtpNEy4GTY_0fL_H-k6cTf_r&authuser=0
+
+5. Run script to load SMPL model and weights:
+```commandline
+bash scripts/setup_smpl.sh
 ```
 
 Dataset: 
@@ -20,7 +32,7 @@ The dataset can be found at this link: https://musclesinaction.cs.columbia.edu/M
 
 
 
-## Training 
+## Training
 
 To train your own model, run the following command below. By default, it pulls from the musclesinaction/configs/train.yaml file. 
 
@@ -34,6 +46,11 @@ The config file also specifies the information for what data the model is being 
 
 
 ## Inference
+
+Always enable the conda environment before running any command:
+```commandline
+$ conda activate musclesinaction
+```
 
 The 'musclesinaction/inference_commands' folder has many different scripts to evaluate our model and baselines, per exercise and per person, for both in-distribution and out-of-distribution experiments. 
 
