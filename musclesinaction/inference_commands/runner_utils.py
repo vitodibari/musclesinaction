@@ -25,13 +25,18 @@ def run_experiment_grid(script_path, experiment_args, variations, default_env="m
     parser.add_argument("--sleep", type=int, default=20, help="Sleep time between session starts (default: 20)")
     parser.add_argument("--dry-run", action="store_true", help="Print commands without executing")
     parser.add_argument("--gpu-offset", type=int, default=0, help="Offset for GPU indexing")
+    parser.add_argument("--sequential", action="store_true", help="Run experiments sequentially instead of in parallel tmux sessions")
     
     # Allow passing any additional args to override defaults
     args, unknown = parser.parse_known_args()
 
     for i, var in enumerate(variations):
         session_name = var.get('session_name', f"mia_job_{i}")
-        cuda_device = var.get('cuda', (i + args.gpu_offset) % 8)
+        
+        if args.sequential:
+            cuda_device = args.gpu_offset
+        else:
+            cuda_device = var.get('cuda', (i + args.gpu_offset) % 8)
         
         # Build command
         # We add PYTHONPATH=. to ensure the project root is in the path for imports
@@ -53,6 +58,10 @@ def run_experiment_grid(script_path, experiment_args, variations, default_env="m
             print(f"\n[DRY RUN] Session: {session_name}")
             print(f"Environment: {args.env}")
             print(f"Command: {full_python_cmd}")
+        elif args.sequential:
+            print(f"\n[SEQUENTIAL RUN] Job {i+1}/{len(variations)}: {session_name}")
+            print(f"Command: {full_python_cmd}")
+            os.system(full_python_cmd)
         else:
             run_in_tmux(session_name, full_python_cmd, conda_env=args.env)
             if i < len(variations) - 1:

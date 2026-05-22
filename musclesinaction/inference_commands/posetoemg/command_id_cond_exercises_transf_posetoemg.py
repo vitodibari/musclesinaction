@@ -29,7 +29,7 @@ for i, ex in enumerate(exercises):
     
     variations.append({
         "session_name": session_name,
-        "cuda": i % 8,
+        "cuda": 0,
         "args": {
             "name": f"generalization_new_cond_{ex}_clean_baseline_perex",
             "data_path_val": f"musclesinaction/ablation/generalization_ID_nocond_exercises/val{ex}.txt",

@@ -176,19 +176,23 @@ class MyMuscleDataset(torch.utils.data.Dataset):
     def __getitem__(self, index):
 
         filepath =  self.all_files[index].split("\n")[0]
+        actual_filepath = filepath
+        if filepath.startswith("MIADatasetOfficial"):
+            actual_filepath = os.path.join("musclesinaction/vibe_data", filepath)
+
         if self.std == "True":
-            emg_values = np.load(filepath + "/emgvaluesstd.npy")
+            emg_values = np.load(actual_filepath + "/emgvaluesstd.npy")
         else:
-            emg_values = np.load(filepath + "/emgvalues.npy")
-        twod_joints = np.load(filepath + "/joints2d.npy")
-        threed_joints = np.load(filepath + "/joints3d.npy")
-        predcam = np.load(filepath + "/predcam.npy")
-        origcam = np.load(filepath + "/origcam.npy")
-        bboxes = np.load(filepath + "/bboxes.npy")
-        pose = np.load(filepath + "/pose.npy")
-        twodskeletonsmpl = np.load(filepath + "/joints2dsmpl.npy")
-        betas = np.load(filepath + "/betas.npy")
-        verts = np.load(filepath + "/verts.npy")
+            emg_values = np.load(actual_filepath + "/emgvalues.npy")
+        twod_joints = np.load(actual_filepath + "/joints2d.npy")
+        threed_joints = np.load(actual_filepath + "/joints3d.npy")
+        predcam = np.load(actual_filepath + "/predcam.npy")
+        origcam = np.load(actual_filepath + "/origcam.npy")
+        bboxes = np.load(actual_filepath + "/bboxes.npy")
+        pose = np.load(actual_filepath + "/pose.npy")
+        twodskeletonsmpl = np.load(actual_filepath + "/joints2dsmpl.npy")
+        betas = np.load(actual_filepath + "/betas.npy")
+        verts = np.load(actual_filepath + "/verts.npy")
             
         person = filepath.split("/")[2]
 
