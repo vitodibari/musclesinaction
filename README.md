@@ -5,32 +5,45 @@
 Code and pre-trained models for the Muscles in Action ICCV 2023 paper. 
 
 ## Setup
-Environment: 
+Environment Prerequisites: 
+
+0. Install ImageMagick to enable matplotlib animation support:
+```commandline
+sudo apt-get update && sudo apt-get install -y imagemagick
+```
 
 1. Install a new conda environment enbled for pip packages and compatible Python version:
 ```commandline
 conda create -n musclesinaction python=3.8 pip -y
 ```
+
 2. Activate environment:
 ```commandline
 conda activate musclesinaction
 ```
+
 3. Install pip packages:
 ```commandline
 pip install -r requirements.txt
 ```
-4. Download the SMPL model from Google Drive and place it in the project root:
+
+4. Download the official dataset from the link below and place it in the project root:
+
+https://musclesinaction.cs.columbia.edu/MIADataset.tar
+
+5. Run script to load dataset:
+```commandline
+bash scripts/setup_dataset.sh
+```
+
+6. Download the SMPL model from Google Drive and place it in the project root:
 
 https://drive.usercontent.google.com/download?id=1untXhYOLQtpNEy4GTY_0fL_H-k6cTf_r&authuser=0
 
-5. Run script to load SMPL model and weights:
+7. Run script to load SMPL model and weights:
 ```commandline
 bash scripts/setup_smpl.sh
 ```
-
-## Dataset: 
-
-The dataset can be found at this link: https://musclesinaction.cs.columbia.edu/MIADataset.tar. Download it, and place the folder in the same directory as the top-level musclesinaction folder.
 
 ## Training
 
@@ -61,6 +74,25 @@ For instance, to evaluate the emg-to-pose model per exercise, in-distribution, w
 python musclesinaction/inference_commands/emgtopose/command_id_cond_exercises_transf_emgtopose.py
 ```
 This will open a tmux session per exercise and print the test set error for that exercise.
+
+To attach to a tmux session and view the live execution, use the `-t` (target) flag:
+```commandline
+tmux attach-session -t <session_name>
+```
+For example, if the session is named `my_session_clean_Running`, run:
+```commandline
+tmux attach-session -t my_session_clean_Running
+```
+You can detach from the session and leave it running in the background by pressing `Ctrl-b` followed by `d`.
+
+To clean the entire tmux context (kill all running sessions), run:
+```commandline
+tmux kill-server
+```
+Alternatively, to kill a specific session, you can run:
+```commandline
+tmux kill-session -t <session_name>
+```
 
 ### **Inference Script Categorization & Dimensions**
 

@@ -23,8 +23,7 @@ Thumbs.db
 .vscode/settings.json
 
 # Project specific data and checkpoints
-data/
-vibe_data/
+/musclesinaction/vibe_data/
 *.zip
 *.tar
 *.mp4
